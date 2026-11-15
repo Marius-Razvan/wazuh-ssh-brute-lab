@@ -6,9 +6,9 @@ This laboratory project demonstrates a full offensive-to-defensive security life
 
  # Lab Architecture & Environment
 Role 	                        Hostname / OS 	                 IP Address                                     Key Tools & Services
-Attacker (Red Team) 	        Kali Linux 	                     192.168.56.103                                 Nmap, THC-Hydra, custom wordlist
-Target Endpoint 	            Ubuntu Server (ubuntu-target) 	 192.168.56.104 	                              OpenSSH Server (Port 22), Wazuh Agent (ID: 001)
-SIEM Server (Blue Team) 	    Wazuh Server (wazuh-server) 	   192.168.56.105 	                              Wazuh Manager, Indexer, Threat Hunting Dashboard
+**Attacker (Red Team )        Kali Linux 	                     192.168.56.103                                 Nmap, THC-Hydra, custom wordlist
+**Target Endpoint 	            Ubuntu Server (ubuntu-target) 	 192.168.56.104 	                              OpenSSH Server (Port 22), Wazuh Agent (ID: 001)
+**SIEM Server (Blue Team) 	    Wazuh Server (wazuh-server) 	   192.168.56.105 	                              Wazuh Manager, Indexer, Threat Hunting Dashboard
 
                            NAT                                                                    Host-only
              Internet access only                             Private network between the VMs; all lab traffic
