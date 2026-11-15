@@ -4,11 +4,13 @@
 # Project Overview
 This laboratory project demonstrates a full offensive-to-defensive security lifecycle within an isolated virtual network. From a Red Team perspective, network reconnaissance and an automated SSH credential brute-force attack are executed against a Linux server. From a Blue Team (SOC Analyst) perspective, endpoint logs are ingested into a Wazuh SIEM instance to detect, triage, and correlate the intrusion attempt against the MITRE ATT&CK framework.
 
- # Lab Architecture & Environment
-Role 	                        Hostname / OS 	                 IP Address                                     Key Tools & Services
-**Attacker (Red Team )        Kali Linux 	                     192.168.56.103                                 Nmap, THC-Hydra, custom wordlist
-**Target Endpoint 	            Ubuntu Server (ubuntu-target) 	 192.168.56.104 	                              OpenSSH Server (Port 22), Wazuh Agent (ID: 001)
-**SIEM Server (Blue Team) 	    Wazuh Server (wazuh-server) 	   192.168.56.105 	                              Wazuh Manager, Indexer, Threat Hunting Dashboard
+ # Lab Architecture 
+
+| Role |  Hostname / OS | IP Address | Key Tools |
+| --- | --- | --- | --- | 
+| Attacker (Red Team ) | Kali Linux | 192.168.56.103 | Nmap, THC-Hydra|
+| Target Endpoint | Ubuntu Server (ubuntu-target) | 192.168.56.104 | OpenSSH Server (Port 22), Wazuh Agent (ID: 001) | 
+| SIEM Server (Blue Team) | Wazuh Server (wazuh-server) | 192.168.56.105 | Wazuh Manager, Indexer, Threat Hunting Dashboard |
 
                            NAT                                                                    Host-only
              Internet access only                             Private network between the VMs; all lab traffic
@@ -31,7 +33,6 @@ EVIDENCE The agent registered as ubuntu-target, ID 001, IP 192.168.56.104, OS Ub
 # First failed SSH logins from Kali
 From Kali, I tried connecting over SSH with deliberately wrong passwords, to see how the target and Wazuh would react to a failed authentication.
 ssh marius@192.168.56.104
-# wrong password, several times
 
 # Checking which machine the attempts actually came from
 Before trusting the alerts, I checked the source of the failed logins directly in the alert's raw data.
