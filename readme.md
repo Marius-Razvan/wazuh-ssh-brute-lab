@@ -24,15 +24,25 @@ EVIDENCE ping to 192.168.56.104: 4 packets transmitted, 4 received, 0% packet lo
 banner Welcome to Ubuntu 26.04.1 LTS and the shell prompt changed to marius@Ubuntu, confirming a
 normal login worked before any attack was attempted.
 
+<img width="1573" height="751" alt="ssh-connection-verified" src="https://github.com/user-attachments/assets/28b2ec63-6757-42e9-a3cd-8ef83a62c84c" />
+
+
 # Deploying the Wazuh agent on the target
 In the Wazuh dashboard, I used the Deploy new agent wizard: Linux, package DEB amd64,
 manager address 192.168.56.105. The wizard generated the installation commands, which I ran on
 the target.
 EVIDENCE The agent registered as ubuntu-target, ID 001, IP 192.168.56.104, OS Ubuntu 26.04.1 LTS, agent version 4.14.5, status active.
 
+<img width="1852" height="364" alt="install-wazuh-agent" src="https://github.com/user-attachments/assets/a47249f4-2701-448e-94ec-2087b9f5ba88" />
+
+<img width="1920" height="923" alt="wazuh-agent-ubuntu-target-active" src="https://github.com/user-attachments/assets/5c19f5a4-b1ba-4c2f-904b-717f0e7c4a1c" />
+
+
 # First failed SSH logins from Kali
 From Kali, I tried connecting over SSH with deliberately wrong passwords, to see how the target and Wazuh would react to a failed authentication.
 ssh marius@192.168.56.104
+
+<img width="1920" height="922" alt="first-failed-ssh" src="https://github.com/user-attachments/assets/9661121d-d629-4296-98e6-e0f92bd0079a" />
 
 # Checking which machine the attempts actually came from
 Before trusting the alerts, I checked the source of the failed logins directly in the alert's raw data.
@@ -48,6 +58,8 @@ attempts were repeated.
 EVIDENCE Opening the resulting Wazuh alert and checking its fields: data.srcip = 192.168.56.103,
 data.dstuser = marius, agent.name = ubuntu-target. The raw log line now read "Failed password for marius from 192.168.56.103 ... ssh2".
 
+<img width="1920" height="922" alt="wazuh-brute_force-kali" src="https://github.com/user-attachments/assets/b4fb341b-cdb3-4f3b-b666-1046a100471c" />
+
 KEY FINDING The failed logins were now correctly attributed to the Kali attacker machine, confirming the lab's
 attack path works end-to-end: Kali -> Target -> Wazuh.
 
@@ -59,6 +71,7 @@ sudo apt install hydra -y
 nano password.txt                   # 5 wrong passwords, then the real one, one per line
 hydra -l marius -P                  password.txt ssh://192.168.56.104
 
+<img width="1920" height="407" alt="kali_hydra_ssh-brute-force_success" src="https://github.com/user-attachments/assets/4930ae05-deb8-4f2e-8f28-28c4ec57fa7a" />
 
 # Wazuh's detection of the brute-force attack
 Instead of logging each failed attempt separately,
@@ -71,8 +84,13 @@ Credential Access, technique Brute Force.
 EVIDENCE Document details for the alert: agent.name = ubuntu-target, agent.ip = 192.168.56.104,
 data.srcip = 192.168.56.103 (Kali), data.dstuser = marius, decoder.name = sshd.
 
+<img width="1920" height="922" alt="dashboardWazuh" src="https://github.com/user-attachments/assets/b7a89eb5-0241-404f-8674-88a68f3abb6a" />
+
+
 ## Detection & SOC Analysis (Wazuh SIEM)
 During the attack, the Wazuh Agent installed on ubuntu-target monitored authentication events.
+
+<img width="1920" height="922" alt="eventsWazuh-dashboard" src="https://github.com/user-attachments/assets/745827bc-9b84-4291-985a-ebb9c0805684" />
 
 # Telemetry Field                    Observed Alert Value                                                                         Analytical Significance
 Rule ID & Level                     Rule 5763 (Severity Level 10)                                                                 High-severity threshold alert triggered by repeated failures.
