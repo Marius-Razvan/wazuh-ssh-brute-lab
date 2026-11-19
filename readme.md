@@ -84,7 +84,9 @@ Credential Access, technique Brute Force.
 EVIDENCE Document details for the alert: agent.name = ubuntu-target, agent.ip = 192.168.56.104,
 data.srcip = 192.168.56.103 (Kali), data.dstuser = marius, decoder.name = sshd.
 
-<img width="1920" height="922" alt="dashboardWazuh" src="https://github.com/user-attachments/assets/b7a89eb5-0241-404f-8674-88a68f3abb6a" />
+<img width="1920" height="923" alt="brute-force-events_details" src="https://github.com/user-attachments/assets/4991eee0-0a4c-42ef-8f7e-1c059b8bafbe" />
+
+<img width="1920" height="923" alt="brute-force_Mitre-T1110" src="https://github.com/user-attachments/assets/39168af0-0e49-46a3-82e9-ce64deb3a600" />
 
 
 ## Detection & SOC Analysis (Wazuh SIEM)
